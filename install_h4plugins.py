@@ -48,10 +48,27 @@ def core_path(base,mcu):
 def tool_source(mcu):
     return TOOL[mcu]+"/releases/download/"+TOOLVER[mcu]+"/"+TOOLNAME[mcu]+"-"+TOOLVER[mcu]+".zip"
 
+def copy_sys(f,d):
+    src=h4p+mcu+"."+f
+#    print("SRC="+src+" dst="+dst)
+    if(os.path.exists(src)):
+        shutil.copyfile(src,cp+d+f)
+
+def get_version(m):
+    print("V ",LIBS+"/"+m+"/library.properties")
+    with open(LIBS+"/"+m+"/library.properties",'r') as f:
+        v=f.read().split('\n')
+        for ver in v:
+            if(ver.find("version=") != -1):
+                return ver.replace("version=","")
+
 print("H4Plugins Menagerie Installer "+MEVERSION)
 # validate depency start point
+ROOT=os.path.dirname(__file__)
+print("ROOT="+ROOT)
 try:
     startlib=sys.argv[1]
+    print("STARTLIB1="+sys.argv[1])
 
     if startlib in MENAGERIE:
         depindex=MENAGERIE.index(startlib)
@@ -72,6 +89,7 @@ try:
         nlibs=0
         toolpath=""
         cp=""
+#        mother=""
         for mcu in VARIANT[0:2]:
             cp=core_path(BASECORE,mcu)
             if(os.path.exists(cp)):
@@ -84,19 +102,11 @@ try:
                     print("Tool path: "+toolpath)
                     download_and_unzip(tool_source(mcu),TOOLNAME[mcu],toolpath,False)
                 if(startlib=="h4plugins"):
-                    h4p="/h4plugins/"+mcu
-                    blt="boards.local.txt"
-                    bltsrc=LIBS+h4p+"."+blt
-                    if(os.path.exists(bltsrc)):
-                        shutil.copyfile(bltsrc,cp+"/"+blt)
-                    ld96="eagle.flash.1m96.ld"
-                    ld96src=LIBS+h4p+"."+ld96
-                    if(os.path.exists(ld96src)):
-                        shutil.copyfile(ld96src,cp+"/tools/sdk/ld/"+ld96)
-#                   now the fun stuff
+                    h4p=LIBS+"/h4plugins/"
+                    copy_sys("boards.local.txt","/")
+                    copy_sys("eagle.flash.1m96.ld","/tools/sdk/ld/")
+#               now the fun stuff
                 if(sys.platform=="win32"):
-#                   h4p=LIBS+"/h4plugins/"
-                    h4p="C:\\Users\\phil\\Documents\\python"
                     import winreg
                     basekey="NetworkExplorerPlugins\\urn:Belkin:device:controllee:1"
                     key = winreg.CreateKeyEx(winreg.HKEY_CLASSES_ROOT, basekey, 0, winreg.KEY_ALL_ACCESS)
@@ -107,23 +117,17 @@ try:
                     key4 = winreg.CreateKey(key3, "Switch")
 #                    winreg.SetValue(key4,"",winreg.REG_SZ,"&Switch")
                     key5 = winreg.CreateKey(key4, "command")
-                    #C:\Users\phil\Documents\Arduino\librariesX\h4plugins\Silent.vbs "py C:\Users\phil\Documents\Arduino\librariesX\h4plugins\actuate.py " 794198
-
-                    cmd="wscript.exe """+ h4p+"Silent.vbs""" #LIBS+#"py "+LIBS+"/h4plugins/actuate.py"" %1"
-                    print("CMD="+cmd)
-                    winreg.SetValueEx(key5,"",0,winreg.REG_EXPAND_SZ,cmd) 
-
+                    cmd=r'wscript.exe "'+ROOT+'/Silent.vbs" "'+ROOT+'/actuate.py" -c %1 toggle'
+#                    print("CMD="+cmd)
+                    winreg.SetValueEx(key5,"",0,winreg.REG_SZ,cmd) 
                     winreg.FlushKey(key)
-                    #print(h)
- 
-
             else:
                 print("WARNING! UNABLE TO INSTALL: "+mcu+" core "+VERSION[mcu]+" required")
         if(nlibs):
             download_and_unzip(tool_source('all'),TOOLNAME[mcu],toolpath,False)
             for m in install:
-                print("Installing "+m)
                 download_and_unzip(GITHUB+m+TAIL,m,LIBS)
+                print("Installed "+m+" "+get_version(m))
 
         else:
             install=[]
