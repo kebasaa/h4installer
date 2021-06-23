@@ -30,7 +30,6 @@ DEPS={
 }
 
 def download_and_unzip(f,m, dest, najlib=True):
-    """
     print("Downloading "+f+"...")
     http_response = urlopen(f)
     zipfile = ZipFile(BytesIO(http_response.read()))
@@ -40,7 +39,7 @@ def download_and_unzip(f,m, dest, najlib=True):
         if(os.path.exists(zdir)):
             shutil.rmtree(zdir) # lose previous instance
             os.rename(zdir+"-master",zdir)
-    """
+            print("Installed "+m+" "+get_version(m))
 #
 def core_path(base,mcu):
     return os.path.join(base,mcu,"hardware",mcu,VERSION[mcu])
@@ -55,17 +54,25 @@ def copy_sys(f,d):
         shutil.copyfile(src,cp+d+f)
 
 def get_version(m):
-    print("V ",LIBS+"/"+m+"/library.properties")
+#    print("V ",LIBS+"/"+m+"/library.properties")
     with open(LIBS+"/"+m+"/library.properties",'r') as f:
         v=f.read().split('\n')
         for ver in v:
             if(ver.find("version=") != -1):
                 return ver.replace("version=","")
 
+
+def set_key(k,action):
+    k2 = winreg.CreateKey(k, action)
+    winreg.SetValue(k2,"",winreg.REG_SZ,action.capitalize())
+    k3 = winreg.CreateKey(k2, "command")
+    winreg.SetValueEx(k3,"",0,winreg.REG_SZ,CMD+action) 
+
 print("H4Plugins Menagerie Installer "+MEVERSION)
 # validate depency start point
 ROOT=os.path.dirname(__file__)
-print("ROOT="+ROOT)
+CMD=r'wscript.exe "'+ROOT+'/Silent.vbs" "'+ROOT+'/actuate.py" -c %1 '
+
 try:
     startlib=sys.argv[1]
     print("STARTLIB1="+sys.argv[1])
@@ -111,24 +118,19 @@ try:
                     basekey="NetworkExplorerPlugins\\urn:Belkin:device:controllee:1"
                     key = winreg.CreateKeyEx(winreg.HKEY_CLASSES_ROOT, basekey, 0, winreg.KEY_ALL_ACCESS)
 #                    winreg.SetValue(key,"",winreg.REG_SZ,"&Switch")
-                    key2 = winreg.CreateKey(key, "DefaultIcon")
-                    winreg.SetValue(key2,"",winreg.REG_SZ,"wscui.cpl,5")
-                    key3 = winreg.CreateKey(key, "Shell")
-                    key4 = winreg.CreateKey(key3, "Switch")
-#                    winreg.SetValue(key4,"",winreg.REG_SZ,"&Switch")
-                    key5 = winreg.CreateKey(key4, "command")
-                    cmd=r'wscript.exe "'+ROOT+'/Silent.vbs" "'+ROOT+'/actuate.py" -c %1 toggle'
-#                    print("CMD="+cmd)
-                    winreg.SetValueEx(key5,"",0,winreg.REG_SZ,cmd) 
-                    winreg.FlushKey(key)
+#                    key2 = winreg.CreateKey(key, "DefaultIcon")
+#                    winreg.SetValue(key2,"",winreg.REG_SZ,"wscui.cpl,5")
+                    shell = winreg.CreateKey(key, "shell")
+                    set_key(shell,"toggle")
+                    set_key(shell,"on")
+                    set_key(shell,"off")
+                    winreg.FlushKey(shell)
             else:
                 print("WARNING! UNABLE TO INSTALL: "+mcu+" core "+VERSION[mcu]+" required")
         if(nlibs):
             download_and_unzip(tool_source('all'),TOOLNAME[mcu],toolpath,False)
             for m in install:
                 download_and_unzip(GITHUB+m+TAIL,m,LIBS)
-                print("Installed "+m+" "+get_version(m))
-
         else:
             install=[]
 
