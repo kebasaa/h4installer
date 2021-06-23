@@ -21,7 +21,7 @@ TOOLNAME={VARIANT[0]:'ESP8266LittleFS',VARIANT[1]:'ESP32FS',VARIANT[2]:'EspExcep
 TOOLVER={VARIANT[0]:'2.6.0',VARIANT[1]:'1.0',VARIANT[2]:'1.1.0'}
 
 GITHUB="https://github.com/philbowles/"
-TOKEN="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"
+TOKEN="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"
 TAIL="/archive/refs/heads/master.zip"
 MENAGERIE=["H4","pmbtools","AardvarkTCP","ArmadilloHTTP","PangolinMQTT","ESPAsyncWebServer","h4plugins"]
 DEPS={
@@ -104,9 +104,9 @@ core_path=""
 
 print("H4Plugins Menagerie Installer "+MEVERSION)
 #
-if(remote_version("h4installer") > MEVERSION):
-    print("NEWER VERSION EXISTS, UPDATING to ...",ROOT)
-    download_and_unzip(GITHUB+"h4installer"+TAIL,"h4installer", "..", najlib=True)
+#if(remote_version("h4installer") > MEVERSION):
+#    print("NEWER VERSION EXISTS, UPDATING to ...",ROOT)
+#    download_and_unzip(GITHUB+"h4installer"+TAIL,"h4installer", "..", najlib=True)
 
 try:
     startlib=sys.argv[1]
