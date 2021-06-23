@@ -28,8 +28,13 @@ DEPS={
     5:[],           # just TCP provider
     6:[0,1,2,3,4,5] # plugins requires full house
 }
-
+#
 def download_and_unzip(f,m, dest, najlib=True):
+    req = urllib.request.Request('https://api.github.com/repos/philbowles/'+m+'/releases/latest')
+    with urllib.request.urlopen(req) as response:
+        the_page = response.read()
+        print(the_page)
+    """
     print("Downloading "+f+"...")
     http_response = urlopen(f)
     zipfile = ZipFile(BytesIO(http_response.read()))
@@ -40,6 +45,7 @@ def download_and_unzip(f,m, dest, najlib=True):
             shutil.rmtree(zdir) # lose previous instance
             os.rename(zdir+"-master",zdir)
             print("Installed "+m+" "+get_version(m))
+    """
 #
 def core_path(base,mcu):
     return os.path.join(base,mcu,"hardware",mcu,VERSION[mcu])
