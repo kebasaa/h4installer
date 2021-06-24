@@ -21,7 +21,6 @@ TOOLNAME={VARIANT[0]:'ESP8266LittleFS',VARIANT[1]:'ESP32FS',VARIANT[2]:'EspExcep
 TOOLVER={VARIANT[0]:'2.6.0',VARIANT[1]:'1.0',VARIANT[2]:'1.1.0'}
 
 GITHUB="https://github.com/philbowles/"
-TOKEN="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"
 TAIL="/archive/refs/heads/master.zip"
 MENAGERIE=["H4","pmbtools","AardvarkTCP","ArmadilloHTTP","PangolinMQTT","ESPAsyncWebServer","h4plugins"]
 DEPS={
@@ -32,18 +31,27 @@ DEPS={
     6:[0,1,2,3,4,5] # plugins requires full house
 }
 #
+ROOT=os.path.dirname(__file__)
+CMD=r'wscript.exe "'+ROOT+'/Silent.vbs" "'+ROOT+'/actuate.py" -c %1 '
+HOME=str(Path.home())
+LIBS=os.path.join(HOME,"Documents/Arduino/libraries")
+TOOLS=os.path.join(HOME,"Documents/Arduino/tools")
+ALLCORES={'win32':'/AppData/Local/Arduino15/packages/','linux':'/.arduino15/packages/','darwin':'/Library/Arduino15/packages/'}
+BASECORE=HOME+ALLCORES[sys.platform]
+
+core_path=""
+
 def remote_version(m):
-    auth = {'Authorization': 'token '+TOKEN }
-    req = urllib.request.Request('https://api.github.com/repos/philbowles/'+m+'/tags',headers=auth)
+    req = urllib.request.Request('https://api.github.com/repos/philbowles/'+m+'/tags')
     with urllib.request.urlopen(req) as response:
         raw=json.loads(response.read().decode('utf-8'))
         tags=[]
         for r in raw:
             tags.append(r['name'].replace('v',''))
         tags.sort()
-        print("Remote version of",m,"is",tags[-1])
+        #print("Remote version of",m,"is",tags[-1])
         return tags[-1]
-
+#
 def download_and_unzip(f,m, dest, najlib=True):
     version=""
     if(najlib):
@@ -88,34 +96,30 @@ def set_key(k,action):
     k2 = winreg.CreateKey(k, action)
     winreg.SetValue(k2,"",winreg.REG_SZ,action.capitalize())
     k3 = winreg.CreateKey(k2, "command")
-    winreg.SetValueEx(k3,"",0,winreg.REG_SZ,CMD+action) 
-#
-#
-#
-ROOT=os.path.dirname(__file__)
-CMD=r'wscript.exe "'+ROOT+'/Silent.vbs" "'+ROOT+'/actuate.py" -c %1 '
-HOME=str(Path.home())
-LIBS=os.path.join(HOME,"Documents/Arduino/librariesX")
-TOOLS=os.path.join(HOME,"Documents/Arduino/tools")
-ALLCORES={'win32':'/AppData/Local/Arduino15/packages/','linux':'/.arduino15/packages/','darwin':'/Library/Arduino15/packages/'}
-BASECORE=HOME+ALLCORES[sys.platform]
+    winreg.SetValueEx(k3,"",0,winreg.REG_SZ,CMD+action)
 
-core_path=""
-
+def install_tool(t):
+    if(not os.path.exists(TOOLS+"/"+TOOLNAME[t])):
+        download_and_unzip(tool_source(t),TOOLNAME[t],TOOLS,False)
+    else:
+        print(TOOLS+"/"+TOOLNAME[t]," already installed")
+#
+#
+#
 print("H4Plugins Menagerie Installer "+MEVERSION)
 #
-#if(remote_version("h4installer") > MEVERSION):
-#    print("NEWER VERSION EXISTS, UPDATING to ...",ROOT)
-#    download_and_unzip(GITHUB+"h4installer"+TAIL,"h4installer", "..", najlib=True)
+me=remote_version("h4installer")
+if(me > MEVERSION):
+    print("NEWER VERSION EXISTS (",me,"). PLEASE UPDATE AND RUN LATEST VERSION")
+    exit(2)
 
 try:
     startlib=sys.argv[1]
-    print("LIB",startlib)
+    #print("LIB",startlib)
     if startlib in MENAGERIE:
         depindex=MENAGERIE.index(startlib)
         print("Installing to: "+LIBS)
-#        install=[MENAGERIE[depindex]]
-        install=[]#[MENAGERIE[depindex]]
+        install=[]
         if depindex in DEPS.keys():
             deps=DEPS[depindex]
             for d in deps:
@@ -124,20 +128,19 @@ try:
         for mcu in VARIANT[0:2]:
             core_path=corepath(BASECORE,mcu)
             if(os.path.exists(core_path)):
-                print("Target "+mcu+" "+core_path+" adding "+TCPLIB[mcu])
+                print("Core "+mcu+"/"+COREVERSION[mcu],"installed: adding "+TCPLIB[mcu])
                 ncores+=1
                 if(depindex > 1):
                     install.append(TCPLIB[mcu])
                 if(depindex > 4):
-                    print("Tool path: "+TOOLS)
-                    download_and_unzip(tool_source(mcu),TOOLNAME[mcu],TOOLS,False)
+                    install_tool(mcu)
             else:
                 print("WARNING! UNABLE TO INSTALL: "+mcu+" core "+COREVERSION[mcu]+" required")
+
         if(ncores):
             install.append(startlib)
-            #download_and_unzip(tool_source('all'),TOOLNAME[mcu],TOOLS,False)
-
-            print("Will install: ",install)
+            install_tool('all')
+            print("Installation candidates: ",install)
             for m in install:
                 download_and_unzip(GITHUB+m+TAIL,m,LIBS,True)
 
@@ -159,7 +162,7 @@ try:
                     set_key(shell,"off")
                     winreg.FlushKey(shell)
 
-        print("H4Plugins Menagerie Installer "+MEVERSION+" ends")#+str(len(install))+" libraries installed")
+        print("H4Plugins Menagerie Installer "+MEVERSION+" ends") 
     else:
         print("ERROR: No such library "+startlib)
 
@@ -172,5 +175,3 @@ except IndexError as e:
     print("Exception type: ", exception_type)
     print("File name: ", filename)
     print("Line number: ", line_number)
-
-#print("ERROR: No library given in command line")
