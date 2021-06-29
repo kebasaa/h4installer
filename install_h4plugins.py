@@ -7,11 +7,14 @@ from io import BytesIO
 from zipfile import ZipFile
 from pathlib import Path
 
-MEVERSION="0.0.1"
+MEVERSION="0.0.2"
+
+TESTONLY=False
 
 VARIANT=["esp8266","esp32","all"]
 COREVERSION={VARIANT[0]:'2.7.4',VARIANT[1]:'1.0.6'}
 TCPLIB={VARIANT[0]:'ESPAsyncTCP',VARIANT[1]:'AsyncTCP'}
+
 TOOL={
     VARIANT[0]:'https://github.com/earlephilhower/arduino-esp8266littlefs-plugin',
     VARIANT[1]:'https://github.com/me-no-dev/arduino-esp32fs-plugin',
@@ -54,12 +57,17 @@ def remote_version(m):
 #
 def download_and_unzip(f,m, dest, najlib=True):
     version=""
+    if(TESTONLY):
+        print("TESTONLY",f,m,dest,local_version(m))
+        return
+
     if(najlib):
         if(not (remote_version(m) > local_version(m))):
             print("Installed version of",m,"already latest")
             return
 
     print("Downloading",f)
+
     ZipFile(BytesIO(urllib.request.urlopen(f).read())).extractall(dest)
 
     if(najlib):
@@ -134,6 +142,10 @@ try:
                     install.append(TCPLIB[mcu])
                 if(depindex > 4):
                     install_tool(mcu)
+                    if(mcu == "esp8266"):
+                        #install.append("ESPAsyncUDP") # H4P / esp8266 only
+                        download_and_unzip("https://github.com/me-no-dev/ESPAsyncUDP/archive/refs/heads/master.zip","ESPAsyncUDP",LIBS,True)
+
             else:
                 print("WARNING! UNABLE TO INSTALL: "+mcu+" core "+COREVERSION[mcu]+" required")
 

@@ -2,7 +2,13 @@
 
 # "1-click" Library ecosystem installer and command-line utility for H4, H4Plugins and dependent libraries
 
-**STATUS: EXPERIMENTAL v0.0.1**
+**STATUS: EXPERIMENTAL v0.0.2**
+
+### CHANGELOG:
+
+#### v0.0.2 29/06/2021
+
+Added ``ESPAsyncUDP`` for ESP8266 builds of ``h4plugins`` 
 
 # ***MAC OS/linux users: the code has been written to be OS-neutral and thus *should* work for you, however I do not have a Mac to test it on, so all volunteers, please form an orderly queue...***
 
