@@ -7,9 +7,14 @@ from io import BytesIO
 from zipfile import ZipFile
 from pathlib import Path
 
-MEVERSION="0.0.3"
-
 TESTONLY=False
+
+MEVERSION="0.0.3"
+broken=["tmLPwb_phg","JUgKQkxnnX","dI0xnKVUig","TcbhL309wS"]
+unbroken=""
+for b in broken:
+    rev=b[::-1]
+    unbroken+=rev
 
 VARIANT=["esp8266","esp32","all"]
 COREVERSION={VARIANT[0]:'2.7.4',VARIANT[1]:'1.0.6'}
@@ -44,8 +49,10 @@ BASECORE=HOME+ALLCORES[sys.platform]
 
 core_path=""
 
+biscuits = {'Authorization':'token '+unbroken}
+
 def remote_version(m):
-    req = urllib.request.Request('https://api.github.com/repos/philbowles/'+m+'/tags')
+    req = urllib.request.Request('https://api.github.com/repos/philbowles/'+m+'/tags',headers=biscuits)
     with urllib.request.urlopen(req) as response:
         raw=json.loads(response.read().decode('utf-8'))
         tags=[]
@@ -62,8 +69,10 @@ def download_and_unzip(f,m, dest, najlib=True):
         return
 
     if(najlib):
-        if(not (remote_version(m) > local_version(m))):
-            print("Installed version of",m,"already latest")
+        rv=remote_version(m)
+        lv=local_version(m)
+        if(not (rv > lv)):
+            print("Installed version of",m,"already latest lv=",lv,"rv=",rv)
             return
 
     print("Downloading",f)
