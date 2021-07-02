@@ -2,7 +2,13 @@
 
 # "1-click" Library ecosystem installer and command-line utility for H4, H4Plugins and dependent libraries
 
-**STATUS: EXPERIMENTAL v0.0.2**
+**STATUS: EXPERIMENTAL v0.0.3**
+
+## KNOWN ISSUES:
+
+Github limits unauthentiated accesses to 60/hour, after that it gives you an "rate limited" error. The script makes about 12 or 13 calls when installing h4plugins, meaning that if 5 usages *worldwide* happen at the same time, the last will get a "rate limt" erro. No solution yet but to wait an hour and try again.
+
+I'm working on a better fix
 
 ### CHANGELOG:
 

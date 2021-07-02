@@ -7,7 +7,7 @@ from io import BytesIO
 from zipfile import ZipFile
 from pathlib import Path
 
-MEVERSION="0.0.2"
+MEVERSION="0.0.3"
 
 TESTONLY=False
 
@@ -143,8 +143,8 @@ try:
                 if(depindex > 4):
                     install_tool(mcu)
                     if(mcu == "esp8266"):
-                        #install.append("ESPAsyncUDP") # H4P / esp8266 only
-                        download_and_unzip("https://github.com/me-no-dev/ESPAsyncUDP/archive/refs/heads/master.zip","ESPAsyncUDP",LIBS,True)
+                        install.append("ESPAsyncUDP") # H4P / esp8266 only
+#                        download_and_unzip("https://github.com/me-no-dev/ESPAsyncUDP/archive/refs/heads/master.zip","ESPAsyncUDP",LIBS,True)
 
             else:
                 print("WARNING! UNABLE TO INSTALL: "+mcu+" core "+COREVERSION[mcu]+" required")
