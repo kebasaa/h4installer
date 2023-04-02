@@ -12,6 +12,8 @@ Github limits unauthentiated accesses to 60/hour, after that it gives you an "ra
 
 Phil Bowles passed away in 2022, and this project has therefore received little maintenance. [Hamza Hajeir](https://github.com/HamzaHajeir) has been keeping the repositories up and running. This installed was updated using [his environment](https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini)
 
+**NOTE**: You _must_ use the following board versions: For ESP8266, use 2.7.4; for the ESP32, use 1.0.6
+
 #### v0.0.2 2021-06-29
 
 Added ``ESPAsyncUDP`` for ESP8266 builds of ``h4plugins`` 
