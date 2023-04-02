@@ -8,11 +8,13 @@
 
 Github limits unauthentiated accesses to 60/hour, after that it gives you an "rate limited" error. The script makes about 12 or 13 calls when installing h4plugins, meaning that if 5 usages *worldwide* happen at the same time, the last will get a "rate limt" erro. No solution yet but to wait an hour and try again.
 
-I'm working on a better fix
-
 ### CHANGELOG:
 
-#### v0.0.2 29/06/2021
+#### 2023-04-02
+
+Phil Bowles passed away in 2022, and this project has therefore received little maintenance. (Hamza Hajeir)[https://github.com/HamzaHajeir] has been keeping the repositories up and running. This installed was updated using (his environment)[https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini]
+
+#### v0.0.2 2021-06-29
 
 Added ``ESPAsyncUDP`` for ESP8266 builds of ``h4plugins`` 
 
@@ -68,13 +70,13 @@ Exisitng users should already be familiar with the "menagerie" and its installat
 | :---: | :----------  | :--- | :--- |
 ||[Forked AsyncTCP](https://github.com/philbowles/AsyncTCP)|"Glue" to LwIP (ESP32)| Important bugfixes |
 ||[Forked ESPAsyncTCP](https://github.com/philbowles/ESPAsyncTCP)|"Glue" to LwIP(ESP8266)| Missing features added |
-||[Forked ESPAsyncWebserver](https://github.com/philbowles/ESPAsyncWebServer)| Basis of webUI in H4Plugins| Several major bugfixes |
+||[Forked ESPAsyncWebserver](https://github.com/HamzaHajeir/ESPAsyncWebServer#2.0.1)| Basis of webUI in H4Plugins| Several major bugfixes |
 |![roadmap](assets/common/tools_icon.jpg)|[PMB Tools](https://github.com/philbowles/pmbtools)|'32/'8266 HAL and utility functions| |
-|![roadmap](assets/common/aardvark_icon.jpg)|[AardvarkTCP](https://github.com/philbowles/AardvarkTCP)|Simple Large-payload Async TCP| API-compatible with ESPAsyncTCP, seamless TLS/SSL |
-|![roadmap](assets/common/pangolin_icon.jpg)|[PangolinMQTT](https://github.com/philbowles/PangolinMQTT)|Async MQTT Client|QoS 0/1/2 Fully 3.1.1 compliant. Large payloads |
-|![roadmap](assets/common/armadillo_icon.jpg)|[ArmadilloHTTP](https://github.com/philbowles/ArmadilloHTTP)|Async HTTP/S Client| Simple send/callback of large payloads |
-|![roadmap](assets/common/h4_icon.jpg)|[H4](https://github.com/philbowles/H4)|Scheduler/Async Timers| |
-|![roadmap](assets/common/h4p_icon.jpg)|[H4/Plugins](https://github.com/philbowles/h4plugins)|Full Async IOT Firmware| Webserver, MQTT, OTA, NTP, HTTP etc etc |
+|![roadmap](assets/common/aardvark_icon.jpg)|[AardvarkTCP](https://github.com/philbowles/AardvarkTCP#0.1.2)|Simple Large-payload Async TCP| API-compatible with ESPAsyncTCP, seamless TLS/SSL |
+|![roadmap](assets/common/pangolin_icon.jpg)|[PangolinMQTT](https://github.com/philbowles/PangolinMQTT#3.0.2)|Async MQTT Client|QoS 0/1/2 Fully 3.1.1 compliant. Large payloads |
+|![roadmap](assets/common/armadillo_icon.jpg)|[ArmadilloHTTP](https://github.com/philbowles/ArmadilloHTTP#0.1.2)|Async HTTP/S Client| Simple send/callback of large payloads |
+|![roadmap](assets/common/h4_icon.jpg)|[H4](https://github.com/HamzaHajeir/ESPAsyncWebServer#2.0.1)|Scheduler/Async Timers| |
+|![roadmap](assets/common/h4p_icon.jpg)|[H4/Plugins](https://github.com/HamzaHajeir/h4plugins#3.2.1)|Full Async IOT Firmware| Webserver, MQTT, OTA, NTP, HTTP etc etc |
 
 ---
 
@@ -90,7 +92,7 @@ When you run it, it asks for that starting point library and once finished, the 
 
 ![pytick](assets/pytick.jpg)
 
-2. Download and [unzip this repo](https://github.com/philbowles/h4installer/archive/refs/heads/master.zip). Take care when choosing a location to unzip to as this location must be permananent: files within the repo are referenced by the command-line utility (amongst others). The author, for example, has it installed in `C:\Users\phil\Documents\h4installer`
+2. Download and [unzip this repo](https://github.com/kebasaa/h4installer/archive/refs/heads/master.zip). Take care when choosing a location to unzip to as this location must be permananent: files within the repo are referenced by the command-line utility (amongst others). The author, for example, has it installed in `C:\Users\phil\Documents\h4installer`
 
 ---
 
@@ -125,7 +127,7 @@ On Windows, you will then see this "context" (right click) menu in the network e
 
 # Command-line utility
 
-[H4 Installer](https://github.com/philbowles/h4installer) also adds a utility that can be run from anywhere to control your H4 devices (this is what the Network Explorer context menu handler uses [ shown above ])
+[H4 Installer](https://github.com/kebasaa/h4installer) also adds a utility that can be run from anywhere to control your H4 devices (this is what the Network Explorer context menu handler uses [ shown above ])
 
 ![usage](assets/usage.jpg)
 
