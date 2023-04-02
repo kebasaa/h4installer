@@ -2,8 +2,6 @@
 
 # "1-click" Library ecosystem installer and command-line utility for H4, H4Plugins and dependent libraries
 
-**STATUS: EXPERIMENTAL v0.0.3**
-
 ## KNOWN ISSUES:
 
 Github limits unauthentiated accesses to 60/hour, after that it gives you an "rate limited" error. The script makes about 12 or 13 calls when installing h4plugins, meaning that if 5 usages *worldwide* happen at the same time, the last will get a "rate limt" erro. No solution yet but to wait an hour and try again.
@@ -18,11 +16,9 @@ Phil Bowles passed away in 2022, and this project has therefore received little 
 
 Added ``ESPAsyncUDP`` for ESP8266 builds of ``h4plugins`` 
 
-# ***MAC OS/linux users: the code has been written to be OS-neutral and thus *should* work for you, however I do not have a Mac to test it on, so all volunteers, please form an orderly queue...***
-
 ---
 
-## If you are able, please [Support me on Patreon](https://patreon.com/esparto) and/or subscribe to my [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
+## For more information, have a look at Phil Bowles' [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
 
 ---
 
@@ -139,7 +135,7 @@ On Windows, you will then see this "context" (right click) menu in the network e
 
 1. As with all H4 and H4Plugins libraries, please make sure you have read *all* the relevant documentation relating to the issue and watched any videos on the [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g). Please also subscribe to the channel for notifications of news and updates.
 
-2. If you still think there is a problem, then join the [Facebook H4  Support / Discussion](https://www.facebook.com/groups/444344099599131/) group and report the issue briefly there. This is because I visit the group every day, whereas I do not have time to visit 11 github repos every day. Furthermore, it alerts other users to potential problems and allows an initial assessment. 
+2. If you still think there is a problem, then join the [Facebook H4  Support / Discussion](https://www.facebook.com/groups/444344099599131/) group and report the issue briefly there. This alerts other users to potential problems and allows an initial assessment. 
 
 3. If there is a genuine issue then you will be referred to [Raising H4/H4Plugins issues](https://github.com/philbowles/h4plugins/blob/master/docs/issues.md) after which you are advised to create a full github issue report.
 
@@ -147,9 +143,8 @@ On Windows, you will then see this "context" (right click) menu in the network e
 
 ---
 
-(c) 2021 Phil Bowles h4plugins@gmail.com
+(c) 2021 Phil Bowles
 
-* [Support me on Patreon](https://patreon.com/esparto)
 * [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
 * [Facebook H4  Support / Discussion](https://www.facebook.com/groups/444344099599131/)
 * [Facebook General ESP8266 / ESP32](https://www.facebook.com/groups/2125820374390340/)
