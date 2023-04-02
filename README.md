@@ -12,7 +12,7 @@ Github limits unauthentiated accesses to 60/hour, after that it gives you an "ra
 
 #### 2023-04-02
 
-Phil Bowles passed away in 2022, and this project has therefore received little maintenance. (Hamza Hajeir)[https://github.com/HamzaHajeir] has been keeping the repositories up and running. This installed was updated using (his environment)[https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini]
+Phil Bowles passed away in 2022, and this project has therefore received little maintenance. [Hamza Hajeir](https://github.com/HamzaHajeir) has been keeping the repositories up and running. This installed was updated using [his environment](https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini)
 
 #### v0.0.2 2021-06-29
 
