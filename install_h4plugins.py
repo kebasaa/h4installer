@@ -27,8 +27,14 @@ TOOL={
 }
 TOOLNAME={VARIANT[0]:'ESP8266LittleFS',VARIANT[1]:'ESP32FS',VARIANT[2]:'EspExceptionDecoder'}
 TOOLVER={VARIANT[0]:'2.6.0',VARIANT[1]:'1.0',VARIANT[2]:'1.1.0'}
+HamzaHajeir_updates = ['h4plugins', 'ESPAsyncWebServer']
+Specific_versions = {'H4':      '/archive/c12d7ff22ed58774114767069bd2c890e67f2df2.zip',
+                     'pmbtools':'/archive/89ee1149757184420bff02235f947e583249bafa.zip',
+                     'AsyncTCP':'/archive/bc43aae72279f0a1d63fc12750f3e81cd1d3612d.zip',
+                     'AardvarkTCP': '/archive/refs/tags/0.1.2.zip'}
 
-GITHUB="https://github.com/philbowles/"
+GITHUB_PHILBOWLES="https://github.com/philbowles/"
+GITHUB_HAMZAHAJEIR="https://github.com/HamzaHajeir/"
 TAIL="/archive/refs/heads/master.zip"
 MENAGERIE=["H4","pmbtools","AardvarkTCP","ArmadilloHTTP","PangolinMQTT","ESPAsyncWebServer","h4plugins"]
 DEPS={
@@ -83,7 +89,11 @@ def download_and_unzip(f,m, dest, najlib=True):
         zdir=os.path.join(dest,m)
         if(os.path.exists(zdir)):
             shutil.rmtree(zdir) # lose previous instance
-        os.rename(zdir+"-master",zdir)
+        if(m not in Specific_versions.keys()):
+            os.rename(zdir+"-master",zdir)
+        else:
+            current_dir = zdir + '-' + Specific_versions[m].split('/')[-1][:-4]
+            os.rename(current_dir,zdir)
         print("Installed "+m+" "+local_version(m))
 #
 def corepath(base,mcu):
@@ -163,7 +173,13 @@ try:
             install_tool('all')
             print("Installation candidates: ",install)
             for m in install:
-                download_and_unzip(GITHUB+m+TAIL,m,LIBS,True)
+                if(m not in HamzaHajeir_updates):
+                    if(m not in Specific_versions.keys()):
+                        download_and_unzip(GITHUB_PHILBOWLES+m+TAIL,m,LIBS,True)
+                    else:
+                        download_and_unzip(GITHUB_PHILBOWLES+m+Specific_versions[m],m,LIBS,True)
+                else:
+                    download_and_unzip(GITHUB_HAMZAHAJEIR+m+TAIL,m,LIBS,True)
 
             if(startlib=="h4plugins"):
                 h4p=LIBS+"/h4plugins/"
