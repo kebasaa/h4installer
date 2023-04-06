@@ -2,17 +2,15 @@
 
 # "1-click" Library ecosystem installer and command-line utility for H4, H4Plugins and dependent libraries
 
-## KNOWN ISSUES:
+Phil Bowles passed away in 2022, and this project has therefore received little maintenance. [Hamza Hajeir](https://github.com/HamzaHajeir) has been keeping the repositories up and running. This installer version was updated from Phil Bowles' using [Hamza Hajeir's environment](https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini).
 
-Github limits unauthentiated accesses to 60/hour, after that it gives you an "rate limited" error. The script makes about 12 or 13 calls when installing h4plugins, meaning that if 5 usages *worldwide* happen at the same time, the last will get a "rate limt" erro. No solution yet but to wait an hour and try again.
+**NOTE**: You _must_ use the following board definition versions: For ESP8266, use 2.7.4; for the ESP32, use 1.0.6
 
 ### CHANGELOG:
 
-#### 2023-04-02
+#### v0.0.3 2023-04-02
 
-Phil Bowles passed away in 2022, and this project has therefore received little maintenance. [Hamza Hajeir](https://github.com/HamzaHajeir) has been keeping the repositories up and running. This installed was updated using [his environment](https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini)
-
-**NOTE**: You _must_ use the following board versions: For ESP8266, use 2.7.4; for the ESP32, use 1.0.6
+New installer based on Phil Bowles' version 0.0.2, updated with [Hamza Hajeir's environment](https://github.com/HamzaHajeir/H4Plugins_Env/blob/master/platformio.ini)
 
 #### v0.0.2 2021-06-29
 
@@ -20,17 +18,23 @@ Added ``ESPAsyncUDP`` for ESP8266 builds of ``h4plugins``
 
 ---
 
-## For more information, have a look at Phil Bowles' [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
+## KNOWN ISSUES:
+
+Github limits unauthentiated accesses to 60/hour, after that it gives you an "rate limited" error. The script makes about 12 or 13 calls when installing h4plugins, meaning that if 5 usages *worldwide* happen at the same time, the last will get a "rate limt" erro. No solution yet but to wait an hour and try again.
+
+## Additional information
+
+For more information, have a look at Phil Bowles' [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
 
 ---
 
 # Contents
 
-* [Overview/features](#overview)
-* [Installation](#installation)
-* [Running the installer](#running-the-installer)
-* [Command-line utility](#command-line-utility)
-* [Issues](#issues)
+- [Overview/features](#overview)
+- [Installation](#installation)
+- [Running the installer](#running-the-installer)
+- [Command-line utility](#command-line-utility)
+- [Issues](#issues)
 
 ---
 
@@ -41,21 +45,19 @@ Watch the video! [Running the h4installer](https://youtu.be/Q1givForuEQ)
 Installing the (up to) 9 libraries and further tools required by H4Plugins can be tedious, especially if you compile for both ESP32 and ESP8266. The ``h4installer`` reduces this process to  a "1-click" action which automatically installs all of the required libraries, their dependencies ( if they are older than the current master branch on [github](https://www.github.com/philbowles))  and the relevant ArduinoIDE tools.
 
 ## Features:
-* Downloads, unzips and installs any library in the dependency chain whose version is less than the latest public master
-* Where a library requires async TCP support, downloads either (or both) of:
-  * [Forked AsyncTCP](https://github.com/philbowles/AsyncTCP) (if user has ESP32 core boards installed)
-  * [Forked ESPAsyncTCP](https://github.com/philbowles/ESPAsyncTCP) (if user has ESP8266 core boards installed)
-* Where a library is dependent upon [Forked ESPAsyncWebserver](https://github.com/philbowles/ESPAsyncWebServer), downloads either (or both) of:
-  *  [ESP32 sketch data uploader](https://github.com/me-no-dev/arduino-esp32fs-plugin) (if user has ESP32 core boards installed)
-  * [LittleFS upload tool](https://github.com/earlephilhower/arduino-esp8266littlefs-plugin) (if user has ESP8266 core boards installed)
-* Installs the [ESP Exception Decoder](https://github.com/me-no-dev/EspExceptionDecoder) (required when submitting issues on any crash)
-* Installs advanced optimised board definitions and special memory model for ITEAD SONOFF devices
-* If h4plugins is installed, additionally installs (Currently on Windows systems only):
-  * Windows desktop UI integration to control H4 devices
-* Provides flexible command-line control of H4 devcies (all OS)
+- Downloads, unzips and installs any library in the dependency chain whose version is less than the latest public master
+- Where a library requires async TCP support, downloads either (or both) of:
+  - [Forked AsyncTCP](https://github.com/philbowles/AsyncTCP) (if user has ESP32 core boards installed)
+  - [Forked ESPAsyncTCP](https://github.com/philbowles/ESPAsyncTCP) (if user has ESP8266 core boards installed)
+- Where a library is dependent upon [Forked ESPAsyncWebserver](https://github.com/philbowles/ESPAsyncWebServer), downloads either (or both) of:
+  - [ESP32 sketch data uploader](https://github.com/me-no-dev/arduino-esp32fs-plugin) (if user has ESP32 core boards installed)
+  - [LittleFS upload tool](https://github.com/earlephilhower/arduino-esp8266littlefs-plugin) (if user has ESP8266 core boards installed)
+- Installs the [ESP Exception Decoder](https://github.com/me-no-dev/EspExceptionDecoder) (required when submitting issues on any crash)
+- Installs advanced optimised board definitions and special memory model for ITEAD SONOFF devices
+- If h4plugins is installed, additionally installs (Currently on Windows systems only):
+  - Windows desktop UI integration to control H4 devices
+- Provides flexible command-line control of H4 devcies (all OS)
     
-
-
 ## The "menagerie" roadmap is now (almost) history
 
 Exisitng users should already be familiar with the "menagerie" and its installation roadmap
@@ -98,8 +100,8 @@ When you run it, it asks for that starting point library and once finished, the 
 
 This will depend on which OS you use:
 
-* Windows: double-click `install.bat` you will be prompted for the starting library (see important note below)
-* Others: enter command `py install_h4plugins.py < starting library >` e.g. `py install_h4plugins.py PangolinMQTT`
+- Windows: double-click `install.bat` you will be prompted for the starting library (see important note below)
+- Others: enter command `py install_h4plugins.py < starting library >` e.g. `py install_h4plugins.py PangolinMQTT`
 
 That's all there is to it! The following libaries / tools will be installed depending on the chosen starting library
 
@@ -133,7 +135,13 @@ On Windows, you will then see this "context" (right click) menu in the network e
 
 # Issues
 
-## If you want a *quick* resolution, please follow these rules:
+## This version of the H4installer
+
+Just create a Github issue
+
+## The H4 plugins: If you want a *quick* resolution, please follow these rules:
+
+As I am not the creator, nor do I keep the libraries up-to-date, I can't and won't fix any issues. Due to Phil's passing, you may not receive any replies to issues, but you can try the following:
 
 1. As with all H4 and H4Plugins libraries, please make sure you have read *all* the relevant documentation relating to the issue and watched any videos on the [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g). Please also subscribe to the channel for notifications of news and updates.
 
@@ -147,8 +155,8 @@ On Windows, you will then see this "context" (right click) menu in the network e
 
 (c) 2021 Phil Bowles
 
-* [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
-* [Facebook H4  Support / Discussion](https://www.facebook.com/groups/444344099599131/)
-* [Facebook General ESP8266 / ESP32](https://www.facebook.com/groups/2125820374390340/)
-* [Facebook ESP8266 Programming Questions](https://www.facebook.com/groups/esp8266questions/)
-* [Facebook ESP Developers (moderator)](https://www.facebook.com/groups/ESP8266/)
+- [Youtube channel (instructional videos)](https://www.youtube.com/channel/UCYi-Ko76_3p9hBUtleZRY6g)
+- [Facebook H4  Support / Discussion](https://www.facebook.com/groups/444344099599131/)
+- [Facebook General ESP8266 / ESP32](https://www.facebook.com/groups/2125820374390340/)
+- [Facebook ESP8266 Programming Questions](https://www.facebook.com/groups/esp8266questions/)
+- [Facebook ESP Developers (moderator)](https://www.facebook.com/groups/ESP8266/)
